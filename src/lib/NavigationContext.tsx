@@ -26,7 +26,11 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
                 // 3. Wait for expansion animation then navigate
                 setTimeout(() => {
                     navigate(path, { state: { fromZoom: true } });
-                    setIsExpanding(null);
+                    // Keep isExpanding set for a bit longer so the exit animation 
+                    // of the current page doesn't "snap" back
+                    setTimeout(() => {
+                        setIsExpanding(null);
+                    }, 1000); 
                 }, 700); // Trigger navigation slightly before expansion completes
             }, 800); // Duration of scroll
         } else {

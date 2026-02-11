@@ -3,7 +3,7 @@ export function Footer() {
         <footer className="bg-background border-t border-border/40 py-12">
             <div className="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
                 <div className="text-center md:text-left">
-                    <h2 className="text-xl font-bold mb-2">Akruti Studio.</h2>
+                    <h2 className="text-xl font-bold mb-2">Akruti Studio</h2>
                     <p className="text-muted-foreground text-sm">
                         Crafting digital experiences that matter.
                     </p>

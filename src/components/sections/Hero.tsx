@@ -1,5 +1,6 @@
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { Button } from '../ui/button'
+import { ModeToggle } from '../mode-toggle'
 
 export function Hero() {
     const { scrollY } = useScroll()
@@ -8,6 +9,14 @@ export function Hero() {
 
     return (
         <section id="home" className="relative h-screen flex items-center justify-center overflow-hidden">
+            {/* Theme Toggle for Home Page */}
+            <div className="absolute top-6 right-6 z-50 md:hidden">
+                 {/* Mobile toggle handled by Navbar if visible, but here for redundancy if needed or desktop-only logic */}
+            </div>
+            <div className="absolute top-6 right-6 z-50">
+                <ModeToggle />
+            </div>
+
             {/* Background Elements */}
             <div className="absolute inset-0 z-0">
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/20 rounded-full blur-[120px] opacity-50 animate-pulse" />
@@ -23,7 +32,7 @@ export function Hero() {
                     transition={{ duration: 0.8, ease: "easeOut" }}
                     className="text-6xl md:text-9xl font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/50"
                 >
-                    Akruti Studio<span className="text-primary">.</span>
+                    Akruti Studio
                 </motion.h1>
 
                 <motion.p

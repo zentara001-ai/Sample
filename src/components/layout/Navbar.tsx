@@ -2,9 +2,10 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
 import { Button } from '../ui/button'
-import { cn } from '../../lib/utils'
+import { cn, getStudioContext } from '../../lib/utils'
 import { useNavigation } from '../../lib/NavigationContext'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { ModeToggle } from '../mode-toggle'
 
 export function Navbar() {
     const [isScrolled, setIsScrolled] = useState(false)
@@ -21,18 +22,32 @@ export function Navbar() {
         return () => window.removeEventListener('scroll', handleScroll)
     }, [])
 
+    const studio = getStudioContext(location.pathname);
+
     const navLinks = [
-        { name: 'Home', id: 'home', path: '/' },
-        { name: 'Projects', id: 'projects', path: '/projects' },
-        { name: 'Work', id: 'work', path: '/work' },
-        { name: 'About', id: 'about', path: '/about' },
-        { name: 'Contact', id: 'contact', path: '/contact' },
+        { name: 'Home', id: 'home', path: studio ? `/${studio}` : '/' },
+        { name: 'Projects', id: 'projects', path: studio ? `/${studio}/projects` : '/projects' },
+        { name: 'Work', id: 'work', path: studio ? `/${studio}/work` : '/work' },
+        { name: 'About', id: 'about', path: studio ? `/${studio}#${studio}-about` : '/about' },
+        { name: 'Contact', id: 'contact', path: studio ? `/${studio}#${studio}-contact` : '/contact' },
     ]
 
     const onLinkClick = (link: typeof navLinks[0]) => {
         setIsMobileMenuOpen(false);
-        if (location.pathname !== '/') {
+        // If it's an anchor link on the same page
+        if (link.path.includes('#')) {
+            const [path, hash] = link.path.split('#');
+            if (location.pathname === path) {
+                const element = document.getElementById(hash);
+                element?.scrollIntoView({ behavior: 'smooth' });
+                return;
+            }
+        }
+        
+        if (location.pathname !== '/' && !studio) {
             navigate(link.path);
+        } else if (studio) {
+             navigate(link.path);
         } else {
             handleNavigation(link.id, link.path);
         }
@@ -47,7 +62,7 @@ export function Navbar() {
         >
             <div className="container mx-auto px-6 flex items-center justify-between">
                 <a href="/" className="text-2xl font-bold tracking-tighter" onClick={(e) => { e.preventDefault(); navigate('/'); }}>
-                    Akruti Studio<span className="text-primary">.</span>
+                    Akruti Studio
                 </a>
 
                 {/* Desktop Nav */}
@@ -62,16 +77,20 @@ export function Navbar() {
                             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
                         </button>
                     ))}
+                    <ModeToggle />
                     <Button onClick={() => handleNavigation('contact', '/contact')}>Get Started</Button>
                 </div>
 
                 {/* Mobile Toggle */}
-                <button
-                    className="md:hidden p-2 text-foreground"
-                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                >
-                    {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-                </button>
+                <div className="flex items-center gap-2 md:hidden">
+                    <ModeToggle />
+                    <button
+                        className="p-2 text-foreground"
+                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                    >
+                        {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                    </button>
+                </div>
             </div>
 
             {/* Mobile Menu */}
