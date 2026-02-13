@@ -2,12 +2,9 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../ui/card'
 import {
-    Code, Smartphone, Bot, Gamepad2, Box, Palette, // Core
-    Wand2, Clapperboard, AudioWaveform, MonitorPlay, ScrollText, UserSquare, BrainCircuit, // AI Creative
-    Terminal, AppWindow, Video, Mic, Fingerprint, TrendingUp,
-    Share2, Cloud, CheckCircle2, X, Briefcase, Zap, Server, Database, Monitor
+    Code, Smartphone, Bot, Box, Palette, 
+    CheckCircle2, X, Cloud
 } from 'lucide-react'
-import { useNavigation } from '../../lib/NavigationContext'
 import { useLocation } from 'react-router-dom'
 import { getStudioContext } from '../../lib/utils'
 import { studioServices } from '../../data/studioData'
@@ -73,13 +70,6 @@ const highlightServices: ServiceCategory[] = [
     }
 ]
 
-const allServices: ServiceCategory[] = [
-    {
-        category: "Full capabilities",
-        items: highlightServices[0].items
-    }
-]
-
 const container = {
     hidden: { opacity: 0 },
     show: {
@@ -96,12 +86,10 @@ const item = {
 }
 
 export function Services() {
-    const { isExpanding } = useNavigation()
     const location = useLocation()
     const [selectedService, setSelectedService] = useState<ServiceItem | null>(null)
     const studio = getStudioContext(location.pathname);
 
-    const isHomePage = location.pathname === '/'
     const studioData = studio ? studioServices[studio as keyof typeof studioServices] : null;
 
     return (
@@ -109,7 +97,8 @@ export function Services() {
             <div className="container mx-auto px-6 relative z-10">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: false, amount: 0.3 }}
                     className="mb-16 text-center"
                 >
                     <h2 className="text-4xl md:text-5xl font-bold mb-4 capitalize">
@@ -130,19 +119,24 @@ export function Services() {
                         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
                     >
                         {studioData.map((service, index) => (
-                            <motion.div key={index} variants={item}>
+                            <motion.div 
+                                key={index} 
+                                variants={item}
+                                whileHover={{ y: -8, scale: 1.03 }}
+                                transition={{ type: "spring", stiffness: 400 }}
+                            >
                                 <Card 
-                                    className="h-full bg-background/50 backdrop-blur-sm border-border/50 hover:bg-background/80 transition-all hover:-translate-y-1 cursor-pointer group"
+                                    className="h-full bg-background/50 backdrop-blur-sm border-border/50 transition-all duration-500 cursor-pointer group hover:border-primary/50 hover:shadow-xl shadow-primary/5"
                                     onClick={() => setSelectedService(service)}
                                 >
                                     <CardHeader>
-                                        <div className="p-3 bg-primary/10 w-fit rounded-xl text-primary mb-4 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                                        <div className="p-3 bg-primary/10 w-fit rounded-xl text-primary mb-4 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-500 transform group-hover:rotate-6">
                                             <service.icon size={24} />
                                         </div>
-                                        <CardTitle className="text-lg">{service.title}</CardTitle>
+                                        <CardTitle className="text-lg group-hover:text-primary transition-colors">{service.title}</CardTitle>
                                     </CardHeader>
                                     <CardContent>
-                                        <CardDescription>{(service as any).desc || (service as any).description}</CardDescription>
+                                        <CardDescription className="group-hover:text-foreground transition-colors">{(service as any).desc || (service as any).description}</CardDescription>
                                     </CardContent>
                                 </Card>
                             </motion.div>
@@ -152,7 +146,7 @@ export function Services() {
                     <div className="space-y-20">
                         {highlightServices.map((category, catIndex) => (
                             <div key={catIndex}>
-                                <motion.div variants={container} initial="hidden" animate="show" className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                                <motion.div variants={container} initial="hidden" whileInView="show" viewport={{ once: false, amount: 0.1 }} className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                                     {category.items.map((service, index) => (
                                         <motion.div key={index} variants={item}>
                                             <Card className="h-full hover:shadow-xl transition-all cursor-pointer" onClick={() => setSelectedService(service)}>

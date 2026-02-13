@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation, useNavigate } from 'react-router-dom'
+import { Routes, Route, useLocation } from 'react-router-dom'
 import { Navbar } from './components/layout/Navbar'
 import { Footer } from './components/layout/Footer'
 import { Hero } from './components/sections/Hero'
@@ -60,7 +60,7 @@ function CategoryGrid() {
                             key={cat.id}
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
+                            viewport={{ once: false }}
                             whileHover={{ y: -10 }}
                             className="group cursor-pointer"
                             onClick={() => handleNavigation(cat.id, cat.path)}
@@ -137,17 +137,22 @@ function App() {
                 <Routes location={location} key={location.pathname}>
                     <Route path="/" element={<Home />} />
                     <Route path="/design" element={<PageWrapper><Design /></PageWrapper>} />
-                    <Route path="/design/projects" element={<PageWrapper><ProjectListing /></PageWrapper>} />
-                    <Route path="/design/work" element={<PageWrapper><Services /></PageWrapper>} />
-                    
-                    <Route path="/app-creation" element={<PageWrapper><AppCreation /></PageWrapper>} />
-                    <Route path="/app-creation/projects" element={<PageWrapper><ProjectListing /></PageWrapper>} />
-                    <Route path="/app-creation/work" element={<PageWrapper><Services /></PageWrapper>} />
-                    
-                    <Route path="/interior" element={<PageWrapper><Interior /></PageWrapper>} />
-                    <Route path="/interior/projects" element={<PageWrapper><ProjectListing /></PageWrapper>} />
-                    <Route path="/interior/work" element={<PageWrapper><Services /></PageWrapper>} />
-                    <Route path="/projects" element={<PageWrapper><ProjectListing /></PageWrapper>} />
+                                            <Route path="/design/projects" element={<PageWrapper><ProjectListing /></PageWrapper>} />
+                                            <Route path="/design/work" element={<PageWrapper><Services /></PageWrapper>} />
+                                            <Route path="/design/about" element={<PageWrapper><About /></PageWrapper>} />
+                                            <Route path="/design/contact" element={<PageWrapper><Contact /></PageWrapper>} />
+                                            
+                                            <Route path="/app-creation" element={<PageWrapper><AppCreation /></PageWrapper>} />
+                                            <Route path="/app-creation/projects" element={<PageWrapper><ProjectListing /></PageWrapper>} />
+                                            <Route path="/app-creation/work" element={<PageWrapper><Services /></PageWrapper>} />
+                                            <Route path="/app-creation/about" element={<PageWrapper><About /></PageWrapper>} />
+                                            <Route path="/app-creation/contact" element={<PageWrapper><Contact /></PageWrapper>} />
+                                            
+                                            <Route path="/interior" element={<PageWrapper><Interior /></PageWrapper>} />
+                                            <Route path="/interior/projects" element={<PageWrapper><ProjectListing /></PageWrapper>} />
+                                            <Route path="/interior/work" element={<PageWrapper><Services /></PageWrapper>} />
+                                            <Route path="/interior/about" element={<PageWrapper><About /></PageWrapper>} />
+                                            <Route path="/interior/contact" element={<PageWrapper><Contact /></PageWrapper>} />                    <Route path="/projects" element={<PageWrapper><ProjectListing /></PageWrapper>} />
                     <Route path="/projects/:id" element={<PageWrapper><ProjectDetail /></PageWrapper>} />
                     <Route path="/story" element={<PageWrapper><CompanyStory /></PageWrapper>} />
                     <Route path="/estimator" element={<PageWrapper><CostEstimator /></PageWrapper>} />

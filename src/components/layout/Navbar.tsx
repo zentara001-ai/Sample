@@ -28,21 +28,12 @@ export function Navbar() {
         { name: 'Home', id: 'home', path: studio ? `/${studio}` : '/' },
         { name: 'Projects', id: 'projects', path: studio ? `/${studio}/projects` : '/projects' },
         { name: 'Work', id: 'work', path: studio ? `/${studio}/work` : '/work' },
-        { name: 'About', id: 'about', path: studio ? `/${studio}#${studio}-about` : '/about' },
-        { name: 'Contact', id: 'contact', path: studio ? `/${studio}#${studio}-contact` : '/contact' },
+        { name: 'About', id: 'about', path: studio ? `/${studio}/about` : '/about' },
+        { name: 'Contact', id: 'contact', path: studio ? `/${studio}/contact` : '/contact' },
     ]
 
     const onLinkClick = (link: typeof navLinks[0]) => {
         setIsMobileMenuOpen(false);
-        // If it's an anchor link on the same page
-        if (link.path.includes('#')) {
-            const [path, hash] = link.path.split('#');
-            if (location.pathname === path) {
-                const element = document.getElementById(hash);
-                element?.scrollIntoView({ behavior: 'smooth' });
-                return;
-            }
-        }
         
         if (location.pathname !== '/' && !studio) {
             navigate(link.path);

@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion'
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
 import { projects } from '../../data/projects'
-import { Link } from 'react-router-dom'
 import { ArrowRight, ExternalLink } from 'lucide-react'
 import { useNavigation } from '../../lib/NavigationContext'
 import { Button } from '../ui/button'
